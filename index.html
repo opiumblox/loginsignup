@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<h2>Signup / Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<br><br>
+
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
+
+<p id="status"></p>
+
+<script>
+const supabase = window.supabase.createClient(
+  "https://dxrrspdwnffhiinhhpew.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4cnJzcGR3bmZmaGlpbmhocGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzExMDg1MjEsImV4cCI6MjA4NjY4NDUyMX0.YAa_RIhOZMYAPq4bQpTUAYVrcl5LIG6hgTSSAcQqOwI"
+)
+
+async function signup(){
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
+
+  const { data, error } = await supabase.auth.signUp({ email, password })
+
+  if(error){
+    status.innerText = error.message
+  } else {
+    status.innerText = "Account created! ID: " + data.user.id
+  }
+}
+
+async function login(){
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+
+  if(error){
+    status.innerText = error.message
+  } else {
+    status.innerText = "Logged in! ID: " + data.user.id
+  }
+}
+</script>
+
+</body>
+</html>
